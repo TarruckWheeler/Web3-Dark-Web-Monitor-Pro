@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 Dark Web Monitor Pro - Enterprise Blockchain Security</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --secondary-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            
+            /* Improved contrast colors */
+            --bg-primary: #1e293b;
+            --bg-secondary: #334155;
+            --bg-tertiary: #475569;
+            --surface-primary: #f8fafc;
+            --surface-secondary: #e2e8f0;
+            --surface-dark: #2d3748;
+            
+            /* Text colors with better contrast */
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-accent: #0f172a;
+            --text-light: #f1f5f9;
+            --text-muted: #64748b;
+            
+            /* Glass effect with better readability */
+            --glass-bg: rgba(248, 250, 252, 0.95);
+            --glass-border: rgba(203, 213, 225, 0.3);
+            
+            --border-radius: 12px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header with improved contrast */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 50px 40px;
+            background: var(--surface-primary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: var(--text-accent); /* fallback */
+        }
+
+        .header .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .header .version-badge {
+            display: inline-block;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Dashboard with better visibility */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--surface-primary);
+            padding: 35px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            position: relative;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .metric-value {
+            font-size: 3.2rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: var(--text-accent); /* fallback */
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.9rem;
+        }
+
+        /* Main content with improved readability */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .main-card {
+            background: var(--surface-primary);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Status section with clear contrast */
+        .status-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--surface-secondary);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-indicator h2 {
+            color: var(--text-accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--danger-color);
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+        }
+
+        .status-dot.active {
+            background: var(--success-color);
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 currentColor;
+            }
+            70% {
+                box-shadow: 0 0 0 10px transparent;
+            }
+            100% {
+                box-shadow: 0 0 0 0 transparent;
+            }
+        }
+
+        /* Toggle switch with better visibility */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 70px;
+            height: 38px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--text-muted);
+            transition: .4s;
+            border-radius: 34px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 30px;
+            width: 30px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input:checked + .slider {
+            background: var(--success-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(32px);
+        }
+
+        /* Feature tabs with improved contrast */
+        .feature-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 35px;
+            background: var(--surface-secondary);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 14px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .tab-button.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: var(--surface-primary);
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Content sections with better readability */
+        .tab-content p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* Monitoring categories with improved contrast */
+        .monitoring-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 35px 0;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, var(--surface-primary) 0%, var(--surface-secondary) 100%);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            background: var(--surface-primary);
+        }
+
+        .category-icon {
+            font-size: 2.8rem;
+            margin-bottom: 18px;
+            display: block;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-accent);
+        }
+
+        .category-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Network grid with better visibility */
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .network-chip {
+            background: var(--surface-secondary);
+            color: var(--text-primary);
+            padding: 14px 18px;
+            border-radius: 25px;
+            text-align: center;
+            border: 2px solid transparent;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .network-chip:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .network-chip.active {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Alert panel with clear contrast */
+        .alert-panel {
+            background: var(--surface-primary);
+            border-radius: var(--border-radius);
+            padding: 35px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .alert-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--surface-secondary);
+        }
+
+        .alert-header h3 {
+            color: var(--text-accent);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 20px;
+            background: var(--surface-secondary);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--warning-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .alert-item.critical {
+            border-left-color: var(--danger-color);
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        }
+
+        .alert-item.resolved {
+            border-left-color: var(--success-color);
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            opacity: 0.8;
+        }
+
+        .alert-item h4 {
+            color: var(--text-accent);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .alert-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Buttons with improved contrast */
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--surface-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--surface-secondary);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Form elements with better visibility */
+        .monitoring-form {
+            background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-primary) 100%);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-top: 25px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-accent);
+            font-size: 0.95rem;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--surface-secondary);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--surface-primary);
+            color: var(--text-primary);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--info-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Risk score with better visibility */
+        .risk-score {
+            text-align: center;
+            padding: 35px;
+        }
+
+        .risk-score h3 {
+            color: var(--text-accent);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .risk-meter {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--success-color) 0deg 120deg,
+                var(--warning-color) 120deg 240deg,
+                var(--danger-color) 240deg 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .risk-meter::before {
+            content: '';
+            width: 100px;
+            height: 100px;
+            background: var(--surface-primary);
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .risk-value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            z-index: 1;
+            color: var(--text-accent);
+        }
+
+        /* Analytics section */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .chart-card {
+            background: var(--surface-primary);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--glass-border);
+        }
+
+        .chart-card h4 {
+            color: var(--text-accent);
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-primary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            border: 2px dashed var(--glass-border);
+        }
+
+        .chart-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.1), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Toast notifications with better contrast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--surface-primary);
+            padding: 18px 24px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--glass-border);
+            z-index: 1000;
+            min-width: 320px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .toast.warning {
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .toast .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-accent);
+            font-weight: 600;
+        }
+
+        .toast .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            margin-left: auto;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--surface-secondary);
+            border-radius: 50%;
+            border-top-color: var(--info-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive design improvements */
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 35px 25px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .main-card {
+                padding: 25px;
+            }
+            
+            .network-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+            
+            .feature-tabs {
+                flex-direction: column;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --surface-primary: #ffffff;
+                --text-primary: #000000;
+                --text-secondary: #333333;
+                --glass-border: #666666;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🛡️ Web3 Dark Web Monitor Pro</h1>
+                <p class="subtitle">Enterprise-Grade Blockchain Security Intelligence Platform</p>
+                <span class="version-badge">v2.1.0 - High Contrast Edition</span>
+            </div>
+        </header>
+
+        <!-- Dashboard Metrics -->
+        <div class="dashboard">
+            <div class="metric-card">
+                <div class="metric-value" id="monitored-assets">0</div>
+                <div class="metric-label">Monitored Assets</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="active-alerts">0</div>
+                <div class="metric-label">Active Alerts</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="networks-covered">25</div>
+                <div class="metric-label">Networks Covered</div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="main-grid">
+            <!-- Monitoring Control Panel -->
+            <div class="main-card">
+                <div class="status-header">
+                    <div class="status-indicator">
+                        <div class="status-dot" id="status-dot"></div>
+                        <h2>🔍 Advanced Monitoring System</h2>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="monitor-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Feature Tabs -->
+                <div class="feature-tabs">
+                    <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
+                    <button class="tab-button" onclick="switchTab('assets')">Asset Management</button>
+                    <button class="tab-button" onclick="switchTab('networks')">Networks</button>
+                    <button class="tab-button" onclick="switchTab('analytics')">Analytics</button>
+                </div>
+
+                <!-- Overview Tab -->
+                <div id="overview" class="tab-content active">
+                    <p>
+                        Deploy AI-powered monitoring across 25+ blockchain networks to detect exposures, 
+                        vulnerabilities, and threats in real-time with enhanced visibility and contrast.
+                    </p>
+
+                    <div class="monitoring-categories">
+                        <div class="category-card">
+                            <span class="category-icon">🔐</span>
+                            <h3 class="category-title">Private Key Monitoring</h3>
+                            <p class="category-description">Scan for exposed private keys, seed phrases, and mnemonic vulnerabilities across dark web sources</p>
+                        </div>
+                        <div class="category-card">
+                            <span class="category-icon">💰</span>
+                            <h3 class="category-title">Wallet Intelligence</h3>
+                            <p class="category-description">Monitor wallet addresses, transaction patterns, and suspicious activities with real-time analysis</p>
+                        </div>
+                        <div class="category-card">
+                            <span class="category-icon">📋</span>
+                            <h3 class="category-title">Smart Contract Security</h3>
+                            <p class="category-description">Audit smart contracts for vulnerabilities and exploit attempts with automated scanning</p>
+                        </div>
+                        <div class="category-card">
+                            <span class="category-icon">🌐</span>
+                            <h3 class="category-title">DeFi Protocol Monitoring</h3>
+                            <p class="category-description">Track DeFi interactions, liquidity risks, and protocol exploits across major platforms</p>
+                        </div>
+                        <div class="category-card">
+                            <span class="category-icon">🎨</span>
+                            <h3 class="category-title">NFT Collection Tracking</h3>
+                            <p class="category-description">Monitor NFT collections, marketplace activities, and authenticity verification systems</p>
+                        </div>
+                        <div class="category-card">
+                            <span class="category-icon">⚡</span>
+                            <h3 class="category-title">MEV Protection</h3>
+                            <p class="category-description">Detect and protect against Maximum Extractable Value attacks and front-running</p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 35px;">
+                        <button class="btn btn-primary" onclick="toggleMonitoring()">
+                            <span id="toggle-text">🚀 Activate Monitoring</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Asset Management Tab -->
+                <div id="assets" class="tab-content">
+                    <h3 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.4rem;">Asset Portfolio Management</h3>
+                    <p>
+                        Add and manage your blockchain assets for comprehensive monitoring coverage across all supported networks.
+                    </p>
+
+                    <div class="monitoring-form">
+                        <h4 style="margin-bottom: 20px; color: var(--text-accent);">Add New Asset</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                            <div class="form-group">
+                                <label for="asset-type">Asset Type:</label>
+                                <select id="asset-type">
+                                    <option value="wallet">Wallet Address</option>
+                                    <option value="contract">Smart Contract</option>
+                                    <option value="ens">ENS Domain</option>
+                                    <option value="nft">NFT Collection</option>
+                                    <option value="defi">DeFi Protocol</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="network-select">Blockchain Network:</label>
+                                <select id="network-select">
+                                    <option value="ethereum">Ethereum</option>
+                                    <option value="polygon">Polygon</option>
+                                    <option value="bsc">Binance Smart Chain</option>
+                                    <option value="arbitrum">Arbitrum</option>
+                                    <option value="optimism">Optimism</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="asset-address">Asset Address/Identifier:</label>
+                            <input type="text" id="asset-address" placeholder="Enter wallet address, contract address, or domain">
+                        </div>
+                        <button class="btn btn-primary" onclick="addAsset()">➕ Add Asset to Portfolio</button>
+                    </div>
+
+                    <div id="asset-list" style="margin-top: 30px;">
+                        <div style="color: var(--text-secondary); text-align: center; padding: 50px; background: var(--surface-secondary); border-radius: var(--border-radius);">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">📊</div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 10px;">No Assets Added Yet</h4>
+                            <p>Add your first blockchain asset to begin comprehensive security monitoring.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Networks Tab -->
+                <div id="networks" class="tab-content">
+                    <h3 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.4rem;">Supported Blockchain Networks</h3>
+                    <p>
+                        Monitor assets across 25+ blockchain networks with real-time threat intelligence and cross-chain analysis.
+                    </p>
+
+                    <div class="network-grid">
+                        <div class="network-chip active">Ethereum</div>
+                        <div class="network-chip">Bitcoin</div>
+                        <div class="network-chip">Polygon</div>
+                        <div class="network-chip">BSC</div>
+                        <div class="network-chip">Arbitrum</div>
+                        <div class="network-chip">Optimism</div>
+                        <div class="network-chip">Avalanche</div>
+                        <div class="network-chip">Solana</div>
+                        <div class="network-chip">Cardano</div>
+                        <div class="network-chip">Polkadot</div>
+                        <div class="network-chip">Cosmos</div>
+                        <div class="network-chip">Near</div>
+                        <div class="network-chip">Fantom</div>
+                        <div class="network-chip">Harmony</div>
+                        <div class="network-chip">zkSync</div>
+                        <div class="network-chip">StarkNet</div>
+                        <div class="network-chip">Chainlink</div>
+                        <div class="network-chip">Flow</div>
+                        <div class="network-chip">Tezos</div>
+                        <div class="network-chip">Algorand</div>
+                    </div>
+
+                    <div style="margin-top: 35px; padding: 30px; background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-primary) 100%); border-radius: var(--border-radius); border: 1px solid var(--glass-border);">
+                        <h4 style="margin-bottom: 20px; color: var(--text-accent);">🔄 Real-time Network Status</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <div style="text-align: center; padding: 20px; background: var(--surface-primary); border-radius: 8px;">
+                                <div style="color: var(--success-color); font-size: 2rem; margin-bottom: 8px;">●</div>
+                                <div style="font-size: 0.95rem; color: var(--text-secondary); font-weight: 600;">All Networks Online</div>
+                            </div>
+                            <div style="text-align: center; padding: 20px; background: var(--surface-primary); border-radius: 8px;">
+                                <div style="color: var(--info-color); font-size: 2rem; margin-bottom: 8px;">⚡</div>
+                                <div style="font-size: 0.95rem; color: var(--text-secondary); font-weight: 600;">Real-time Monitoring</div>
+                            </div>
+                            <div style="text-align: center; padding: 20px; background: var(--surface-primary); border-radius: 8px;">
+                                <div style="color: var(--success-color); font-size: 2rem; margin-bottom: 8px;">🛡️</div>
+                                <div style="font-size: 0.95rem; color: var(--text-secondary); font-weight: 600;">Threat Detection Active</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics" class="tab-content">
+                    <h3 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.4rem;">Security Analytics Dashboard</h3>
+                    
+                    <div class="analytics-grid">
+                        <div class="chart-card">
+                            <h4>Threat Detection Timeline</h4>
+                            <div class="chart-placeholder">
+                                📊 Interactive Threat Analysis Chart
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h4>Risk Distribution Analysis</h4>
+                            <div class="chart-placeholder">
+                                🥧 Portfolio Risk Breakdown
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h4>Network Activity Heatmap</h4>
+                            <div class="chart-placeholder">
+                                📈 Cross-Chain Activity Monitor
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h4>Asset Exposure Scoring</h4>
+                            <div class="chart-placeholder">
+                                📉 Real-time Exposure Trends
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Panel & Risk Score -->
+            <div>
+                <!-- Risk Score -->
+                <div class="alert-panel" style="margin-bottom: 30px;">
+                    <div class="risk-score">
+                        <h3>Overall Security Risk Score</h3>
+                        <div class="risk-meter">
+                            <div class="risk-value" id="risk-score">0</div>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">Based on 15+ security risk factors</p>
+                        <button class="btn btn-secondary">📊 View Detailed Risk Analysis</button>
+                    </div>
+                </div>
+
+                <!-- Alert Panel -->
+                <div class="alert-panel">
+                    <div class="alert-header">
+                        <h3>🚨 Security Alerts</h3>
+                        <button class="btn btn-secondary" onclick="refreshAlerts()">
+                            <span class="loading" id="refresh-loading" style="display: none;"></span>
+                            🔄 Refresh Alerts
+                        </button>
+                    </div>
+
+                    <div id="alert-list">
+                        <div style="text-align: center; padding: 50px; color: var(--text-secondary); background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-primary) 100%); border-radius: var(--border-radius);">
+                            <div style="font-size: 3.5rem; margin-bottom: 18px;">✅</div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 10px;">All Systems Secure</h4>
+                            <p>No active security alerts detected across monitored assets</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enterprise Features -->
+        <div class="main-card">
+            <h2 style="margin-bottom: 35px; color: var(--text-accent); font-size: 2rem;">🏢 Enterprise Security Features</h2>
+            
+            <div class="analytics-grid">
+                <div class="chart-card">
+                    <h4>🔍 Advanced Threat Intelligence</h4>
+                    <p style="color: var(--text-secondary); margin: 15px 0; line-height: 1.6;">AI-powered analysis of dark web marketplaces, underground forums, and threat actor communications with machine learning classification.</p>
+                    <ul style="color: var(--text-secondary); margin-left: 20px; line-height: 1.8;">
+                        <li>Real-time OSINT collection and processing</li>
+                        <li>Advanced threat actor attribution systems</li>
+                        <li>Predictive risk modeling with ML algorithms</li>
+                        <li>Automated IOC detection and correlation</li>
+                    </ul>
+                </div>
+                
+                <div class="chart-card">
+                    <h4>🛡️ Zero-Knowledge Monitoring</h4>
+                    <p style="color: var(--text-secondary); margin: 15px 0; line-height: 1.6;">Privacy-preserving security analysis with end-to-end encryption and confidential computing technologies for sensitive assets.</p>
+                    <ul style="color: var(--text-secondary); margin-left: 20px; line-height: 1.8;">
+                        <li>Homomorphic encryption for private analysis</li>
+                        <li>Secure multi-party computation protocols</li>
+                        <li>Zero-knowledge proof verification systems</li>
+                        <li>Privacy-first threat intelligence sharing</li>
+                    </ul>
+                </div>
+                
+                <div class="chart-card">
+                    <h4>🤖 AI Security Assistant</h4>
+                    <p style="color: var(--text-secondary); margin: 15px 0; line-height: 1.6;">Intelligent automation for threat response, investigation workflows, and remediation recommendations powered by advanced AI models.</p>
+                    <ul style="color: var(--text-secondary); margin-left: 20px; line-height: 1.8;">
+                        <li>Natural language security query interface</li>
+                        <li>Automated incident response procedures</li>
+                        <li>Intelligent alert prioritization and clustering</li>
+                        <li>Compliance automation and reporting</li>
+                    </ul>
+                </div>
+                
+                <div class="chart-card">
+                    <h4>📊 Enterprise Reporting Suite</h4>
+                    <p style="color: var(--text-secondary); margin: 15px 0; line-height: 1.6;">Comprehensive security reporting with compliance frameworks, executive dashboards, and customizable analytics for enterprise needs.</p>
+                    <ul style="color: var(--text-secondary); margin-left: 20px; line-height: 1.8;">
+                        <li>SOC 2 Type II compliance reporting</li>
+                        <li>Executive-level security summaries</li>
+                        <li>Comprehensive audit trail documentation</li>
+                        <li>Custom risk assessment frameworks</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state management
+        let monitoringActive = false;
+        let monitoredAssets = [];
+        let alerts = [];
+        let riskScore = 0;
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDashboard();
+            simulateRealTimeUpdates();
+            showWelcomeToast();
+        });
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Toggle monitoring system
+        function toggleMonitoring() {
+            const toggle = document.getElementById('monitor-toggle');
+            const statusDot = document.getElementById('status-dot');
+            const toggleText = document.getElementById('toggle-text');
+            
+            monitoringActive = !monitoringActive;
+            toggle.checked = monitoringActive;
+            
+            if (monitoringActive) {
+                statusDot.classList.add('active');
+                toggleText.innerHTML = '⏸️ Deactivate Monitoring';
+                showToast('🟢 Web3 security monitoring activated across all networks', 'success');
+                startMonitoringSimulation();
+            } else {
+                statusDot.classList.remove('active');
+                toggleText.innerHTML = '🚀 Activate Monitoring';
+                showToast('🔴 Web3 security monitoring deactivated', 'warning');
+                stopMonitoringSimulation();
+            }
+            
+            updateDashboard();
+        }
+
+        // Add asset to monitoring portfolio
+        function addAsset() {
+            const type = document.getElementById('asset-type').value;
+            const network = document.getElementById('network-select').value;
+            const address = document.getElementById('asset-address').value;
+            
+            if (!address.trim()) {
+                showToast('⚠️ Please enter a valid asset address or identifier', 'error');
+                return;
+            }
+            
+            const asset = {
+                id: Date.now(),
+                type: type,
+                network: network,
+                address: address,
+                dateAdded: new Date().toLocaleDateString(),
+                status: 'monitoring',
+                riskLevel: Math.floor(Math.random() * 5) + 1
+            };
+            
+            monitoredAssets.push(asset);
+            document.getElementById('asset-address').value = '';
+            updateAssetList();
+            updateDashboard();
+            
+            showToast(`✅ Successfully added ${type} to monitoring portfolio`, 'success');
+        }
+
+        // Update asset list display
+        function updateAssetList() {
+            const assetList = document.getElementById('asset-list');
+            
+            if (monitoredAssets.length === 0) {
+                assetList.innerHTML = `
+                    <div style="color: var(--text-secondary); text-align: center; padding: 50px; background: var(--surface-secondary); border-radius: var(--border-radius);">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">📊</div>
+                        <h4 style="color: var(--text-primary); margin-bottom: 10px;">No Assets Added Yet</h4>
+                        <p>Add your first blockchain asset to begin comprehensive security monitoring.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            assetList.innerHTML = monitoredAssets.map(asset => `
+                <div style="background: linear-gradient(135deg, var(--surface-primary) 0%, var(--surface-secondary) 100%); padding: 25px; border-radius: var(--border-radius); margin-bottom: 20px; border-left: 4px solid var(--success-color); box-shadow: var(--shadow-md);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h4 style="color: var(--text-accent); font-size: 1.1rem;">${asset.type.charAt(0).toUpperCase() + asset.type.slice(1)} - ${asset.network}</h4>
+                        <span style="background: var(--success-color); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">Active</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-family: monospace; word-break: break-all; margin-bottom: 15px; background: var(--surface-secondary); padding: 10px; border-radius: 6px;">${asset.address}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <small style="color: var(--text-secondary);">Added: ${asset.dateAdded}</small>
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <span style="color: var(--warning-color); font-weight: 600;">Risk Level: ${asset.riskLevel}/5</span>
+                            <button onclick="removeAsset(${asset.id})" class="btn btn-danger" style="padding: 8px 14px; font-size: 0.8rem;">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Remove asset from monitoring
+        function removeAsset(id) {
+            monitoredAssets = monitoredAssets.filter(asset => asset.id !== id);
+            updateAssetList();
+            updateDashboard();
+            showToast('🗑️ Asset removed from monitoring portfolio', 'warning');
+        }
+
+        // Refresh security alerts
+        function refreshAlerts() {
+            const loading = document.getElementById('refresh-loading');
+            loading.style.display = 'inline-block';
+            
+            setTimeout(() => {
+                loading.style.display = 'none';
+                if (monitoringActive && monitoredAssets.length > 0) {
+                    generateRandomAlert();
+                } else {
+                    showToast('ℹ️ No active monitoring sessions to refresh', 'warning');
+                }
+            }, 2000);
+        }
+
+        // Generate random security alert
+        function generateRandomAlert() {
+            if (!monitoringActive || monitoredAssets.length === 0) return;
+            
+            const alertTypes = [
+                { type: 'Private Key Exposure Detected', severity: 'critical', icon: '🔐' },
+                { type: 'Suspicious Transaction Pattern', severity: 'warning', icon: '⚠️' },
+                { type: 'Smart Contract Vulnerability', severity: 'critical', icon: '📋' },
+                { type: 'DeFi Protocol Risk Alert', severity: 'warning', icon: '🌐' },
+                { type: 'MEV Attack Vector Identified', severity: 'critical', icon: '⚡' },
+                { type: 'Cross-Chain Bridge Exposure', severity: 'warning', icon: '🌉' }
+            ];
+            
+            const randomAlert = alertTypes[Math.floor(Math.random() * alertTypes.length)];
+            const randomAsset = monitoredAssets[Math.floor(Math.random() * monitoredAssets.length)];
+            
+            const alert = {
+                id: Date.now(),
+                ...randomAlert,
+                asset: randomAsset.address.substring(0, 12) + '...',
+                network: randomAsset.network,
+                time: new Date().toLocaleTimeString()
+            };
+            
+            alerts.unshift(alert);
+            updateAlertList();
+            updateDashboard();
+            
+            showToast(`🚨 ${alert.type} detected for ${alert.asset}`, 'error');
+        }
+
+        // Update alert list display
+        function updateAlertList() {
+            const alertList = document.getElementById('alert-list');
+            
+            if (alerts.length === 0) {
+                alertList.innerHTML = `
+                    <div style="text-align: center; padding: 50px; color: var(--text-secondary); background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-primary) 100%); border-radius: var(--border-radius);">
+                        <div style="font-size: 3.5rem; margin-bottom: 18px;">✅</div>
+                        <h4 style="color: var(--text-primary); margin-bottom: 10px;">All Systems Secure</h4>
+                        <p>No active security alerts detected across monitored assets</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            alertList.innerHTML = alerts.slice(0, 5).map(alert => `
+                <div class="alert-item ${alert.severity}">
+                    <span style="font-size: 1.8rem;">${alert.icon}</span>
+                    <div style="flex: 1;">
+                        <h4>${alert.type}</h4>
+                        <p>Asset: ${alert.asset} • Network: ${alert.network} • ${alert.time}</p>
+                    </div>
+                    <button class="btn btn-danger" style="padding: 10px 18px; font-size: 0.85rem;">Investigate</button>
+                </div>
+            `).join('');
+        }
+
+        // Update dashboard metrics
+        function updateDashboard() {
+            document.getElementById('monitored-assets').textContent = monitoredAssets.length;
+            document.getElementById('active-alerts').textContent = alerts.length;
+            
+            // Calculate risk score
+            if (monitoredAssets.length > 0) {
+                const avgRisk = monitoredAssets.reduce((sum, asset) => sum + asset.riskLevel, 0) / monitoredAssets.length;
+                riskScore = Math.floor(avgRisk * 20);
+            } else {
+                riskScore = 0;
+            }
+            
+            document.getElementById('risk-score').textContent = riskScore;
+        }
+
+        // Start monitoring simulation
+        function startMonitoringSimulation() {
+            const interval = setInterval(() => {
+                if (!monitoringActive) {
+                    clearInterval(interval);
+                    return;
+                }
+                
+                if (Math.random() < 0.25 && monitoredAssets.length > 0) {
+                    generateRandomAlert();
+                }
+            }, 15000);
+        }
+
+        // Stop monitoring simulation
+        function stopMonitoringSimulation() {
+            alerts = [];
+            updateAlertList();
+            updateDashboard();
+        }
+
+        // Simulate real-time updates
+        function simulateRealTimeUpdates() {
+            setInterval(() => {
+                const networksCount = document.getElementById('networks-covered');
+                if (networksCount && monitoringActive) {
+                    const current = parseInt(networksCount.textContent);
+                    const variation = Math.floor(Math.random() * 3) - 1;
+                    networksCount.textContent = Math.max(20, Math.min(30, current + variation));
+                }
+            }, 45000);
+        }
+
+        // Enhanced toast notification system
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const iconMap = {
+                success: '✅',
+                warning: '⚠️',
+                error: '🚨',
+                info: 'ℹ️'
+            };
+            
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <span style="font-size: 1.2rem;">${iconMap[type] || 'ℹ️'}</span>
+                    <span style="flex: 1;">${message}</span>
+                    <button class="close-btn" onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        // Welcome toast message
+        function showWelcomeToast() {
+            setTimeout(() => {
+                showToast('🎯 Welcome to Web3 Dark Web Monitor Pro - High Contrast Edition', 'success');
+            }, 1500);
+        }
+
+        // Network chip interactions
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('network-chip')) {
+                e.target.classList.toggle('active');
+                
+                const activeNetworks = document.querySelectorAll('.network-chip.active').length;
+                showToast(`📡 ${activeNetworks} blockchain networks selected for monitoring`, 'success');
+            }
+        });
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                // Close any open modals or notifications
+                document.querySelectorAll('.toast').forEach(toast => toast.remove());
+            }
+        });
+    </script>
+</body>
+</html>
